@@ -1,10 +1,14 @@
 const express = require('express');
 
+const usersControllers = require('../controllers/users-controller');
 const router = express.Router();
 
-router.get('/', (req,res,next)=> {
 
-    res.json({message: 'hey'});
-})
 
-module.exports = router
+router.get('/', usersControllers.getUsers );
+
+router.post('/signup', usersControllers.signup );
+
+router.post('/login', usersControllers.login);
+
+module.exports = router;
