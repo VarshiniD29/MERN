@@ -6,9 +6,9 @@ const router = express.Router();
 
 
 
-router.get('/:pid', placesControllers.getPlaceByID);
+router.get('/:pid', placesControllers.getPlaceById);
 
-router.get('/user/:uid', placesControllers.getPlacesbyUserId);
+router.get('/user/:uid', placesControllers.getPlacesByUserId);
 
 router.post('/', 
 [
