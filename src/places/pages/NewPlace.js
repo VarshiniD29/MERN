@@ -13,7 +13,7 @@ import { AuthContext } from '../../shared/context/auth-context';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
-
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 
 const NewPlace = () => {
   const auth = useContext(AuthContext);
@@ -31,6 +31,10 @@ const NewPlace = () => {
       address : {
         value: '',
         isValid: false
+      },
+      image : {
+        value: null,
+        isValid : false
       }
     }, false
   );
@@ -41,15 +45,13 @@ const NewPlace = () => {
     event.preventDefault();
     //console.log(formState.inputs); //send this to backend
     try{
-    await sendRequest('http://localhost:5000/api/places', 'POST', 
-    JSON.stringify({
-      title: formState.inputs.title.value,
-      description: formState.inputs.description.value,
-      address: formState.inputs.address.value,
-      creator: auth.userId
-      }), 
-      {'Content-Type' : 'application/json'}
-    );
+      const formData = new FormData();
+      formData.append ('title', formState.inputs.title.value);
+      formData.append ('description', formState.inputs.description.value);
+      formData.append ('address', formState.inputs.address.value);
+      formData.append ('creator', auth.userId);
+      formData.append ('image', formState.inputs.image.value);
+    await sendRequest('http://localhost:5000/api/places', 'POST',  formData);
     //Redirect the user to a different page
     history.push('/');
     } catch (err) {
@@ -87,7 +89,8 @@ const NewPlace = () => {
         errorText="Please enter a valid address. "
         onInput={inputHandler}
       />
-
+      <ImageUpload id = "image" onInput = {inputHandler} 
+      errorText = "Please provide an image" ></ImageUpload>
       <Button type="submit" disabled={!formState.isValid}>
         ADD PLACE
       </Button>
