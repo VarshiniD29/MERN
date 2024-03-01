@@ -7,6 +7,7 @@
     background: white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     border-radius: 8px;
+    position: relative;
   }
   
   .modal__header {
@@ -22,6 +23,7 @@
   
   .modal__content {
     padding: 1rem 0.5rem;
+    overflow: hidden;
   }
   
   .modal__footer {
@@ -30,6 +32,8 @@
   .map-container {
     height : 15rem ;
     width : 100% ;
+    position: relative; /* Ensure map container is positioned relative */
+  z-index: 1;
   }
   @media (min-width: 768px) {
     .modal {

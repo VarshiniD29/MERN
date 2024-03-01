@@ -1,22 +1,25 @@
-import React from 'react';
-import { MapContainer, TileLayer } from "react-leaflet";
+import React, { useEffect } from 'react';
+import mapboxgl from 'mapbox-gl';
 
+const MapComponent = () => {
+  useEffect(() => {
+    // Initialize Mapbox map
+    mapboxgl.accessToken = 'pk.eyJ1IjoidmR1bm5hbGEiLCJhIjoiY2x0OTFzZXpvMDdhdDJobWdmdmZpb2lydSJ9.eB-FOo8Oa0dhmBFeaTwOJw';
+    const map = new mapboxgl.Map({
+      container: 'map', // container id
+      style: 'mapbox://styles/mapbox/streets-v11', // map style URL
+      center: [ -87.47382095829578, 41.584115601748344,], // starting position [lng, lat]
+      zoom: 13 // starting zoom
+    });
 
-import "./Map.css"
+    // Add navigation controls (optional)
+    map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-const Map = props => {
-  console.log('Map component rendered');
-  const center = [41.58389937037336, -87.47355647640109];
-  
-  return (
-    <MapContainer center={center} zoom={16} className="map-container" >
-      {/* OPEN STREEN MAPS TILES */}
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-       </MapContainer>
-  );
-}
+    // Cleanup function to remove the map instance
+    return () => map.remove();
+  }, []);
 
-export default Map;
+  return <div id="map" style={{ height: '400px', width: '100%' }}></div>;
+};
+
+export default MapComponent;
